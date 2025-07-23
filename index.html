@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prime Number Finder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-2xl w-full bg-white shadow-xl rounded-xl p-8 space-y-6">
+    <h1 class="text-3xl font-bold text-center text-blue-700">Prime Number Finder</h1>
+
+    <div class="flex flex-col sm:flex-row items-center gap-4 justify-center">
+      <label for="limit" class="text-lg font-medium text-gray-700">Find primes up to:</label>
+      <input type="number" id="limit" min="2" value="10000"
+             class="border border-gray-300 rounded px-4 py-2 w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <button onclick="findPrimes()"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow">
+        Run
+      </button>
+    </div>
+
+    <div id="output" class="bg-gray-50 p-4 rounded border border-gray-200 text-sm whitespace-pre-wrap h-80 overflow-y-auto"></div>
+  </div>
+
+  <script>
+    function isPrime(n) {
+      if (n < 2) return false;
+      if (n === 2) return true;
+      if (n % 2 === 0) return false;
+      for (let i = 3; i <= Math.sqrt(n); i += 2) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    }
+
+    function findPrimes() {
+      const limit = parseInt(document.getElementById('limit').value, 10);
+      const outputDiv = document.getElementById('output');
+      const primes = [];
+
+      const startTime = performance.now();
+      for (let i = 2; i <= limit; i++) {
+        if (isPrime(i)) primes.push(i);
+      }
+      const endTime = performance.now();
+
+      const elapsed = (endTime - startTime).toFixed(2);
+      outputDiv.textContent = `🔢 Found ${primes.length} prime numbers up to ${limit}.\n` +
+                              `⏱️ Time taken: ${elapsed} ms\n\n` +
+                              `🧮 Primes:\n${primes.join(', ')}`;
+    }
+  </script>
+</body>
+</html>
